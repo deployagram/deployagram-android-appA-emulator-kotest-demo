@@ -12,6 +12,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import io.kotest.assertions.nondeterministic.eventually
 import io.kotest.matchers.shouldBe
 import io.kotest.runner.junit4.FunSpec
+import com.deployagram.mockwebserver.RecordingDispatcher
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -39,7 +40,12 @@ class RecommendBookScreenTest : FunSpec({
         bookOverflow = MockWebServer()
         bookOverflowAnswers = SuggestionAnswers()
         enteredEmail = "reader-${UUID.randomUUID()}@example.com"
-        bookOverflow.dispatcher = bookOverflowAnswers
+        // Deployagram records the request AppA sends, and the answer BookOverflow gives.
+        bookOverflow.dispatcher = RecordingDispatcher(
+            bookOverflowAnswers,
+            "AliceA",
+            "ORG_ctm_01m1j08sx96792d2tysabvyadp:BookOverflow",
+        )
         bookOverflow.start()
         BookOverflowConfig.baseUrl = bookOverflow.url("/").toString().trimEnd('/')
     }

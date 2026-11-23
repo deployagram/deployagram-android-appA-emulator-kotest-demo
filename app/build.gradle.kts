@@ -15,6 +15,11 @@ android {
         versionName = "0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        // Ends each test's sequence diagram in the Deployagram Collector when the test finishes.
+        testInstrumentationRunnerArguments["listener"] = "com.deployagram.junit4.DeployagramRunListener"
+        // The emulator reaches the host at 10.0.2.2. DEPLOYAGRAM_COLLECTOR_URL overrides the port, for example http://10.0.2.2:1153.
+        testInstrumentationRunnerArguments["deployagram.collectorUrl"] =
+            System.getenv("DEPLOYAGRAM_COLLECTOR_URL") ?: "http://10.0.2.2:1152"
     }
 
     compileOptions {
@@ -54,4 +59,7 @@ dependencies {
     androidTestImplementation("com.squareup.okhttp3:mockwebserver:5.3.2")
     androidTestImplementation("io.kotest:kotest-runner-junit4:6.1.2")
     androidTestImplementation("io.kotest:kotest-assertions-core:6.1.2")
+    // Deployagram: the listener and Collector client, and the MockWebServer recorder. Published on Maven Central.
+    androidTestImplementation("com.deployagram:deployagram-junit4:1.1.0")
+    androidTestImplementation("com.deployagram:deployagram-mockwebserver:1.1.0")
 }

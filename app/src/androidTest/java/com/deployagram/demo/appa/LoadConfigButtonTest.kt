@@ -9,6 +9,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withHint
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import com.deployagram.mockwebserver.RecordingDispatcher
 import io.kotest.assertions.nondeterministic.eventually
 import io.kotest.matchers.shouldBe
 import io.kotest.runner.junit4.FunSpec
@@ -40,12 +41,16 @@ class LoadConfigButtonTest : FunSpec({
 
         bookOverflowAnswers = SuggestionAnswers()
         bookOverflow = MockWebServer()
-        bookOverflow.dispatcher = bookOverflowAnswers
+        bookOverflow.dispatcher = RecordingDispatcher(
+            bookOverflowAnswers,
+            "AliceA",
+            "ORG_ctm_01m1j08sx96792d2tysabvyadp:BookOverflow",
+        )
         bookOverflow.start()
         BookOverflowConfig.baseUrl = bookOverflow.url("/").toString().trimEnd('/')
 
         aliceMessager = MockWebServer()
-        aliceMessager.dispatcher = AliceMessagerAnswers()
+        aliceMessager.dispatcher = RecordingDispatcher(AliceMessagerAnswers(), "AliceA", "AliceMessager")
         aliceMessager.start()
         AliceMessagerConfig.baseUrl = aliceMessager.url("/").toString().trimEnd('/')
     }

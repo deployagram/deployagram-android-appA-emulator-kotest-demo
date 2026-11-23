@@ -20,6 +20,8 @@ GET /BookOverflow/suggestion?email=<the email the user typed>
 | BookOverflow suggests a book                     | The book's name, edition, format and authors                       |
 | Email is blank, and BookOverflow refuses (400)   | `You must enter a valid email!`                                    |
 | Any other failure                                | `Sorry, no suggestion right now (<reason>)`                        |
+| Load Config, after a suggestion                | AliceMessager's reply, `World` for `Hello` (sent once a book is recommended) |
+| Load Config, with no suggestion yet            | AliceMessager's reply, `Is someone there?` for an empty payload |
 
 The app calls BookOverflow at `http://10.0.2.2:8080` by default. `10.0.2.2` is how the Android emulator
 reaches the host machine. Tests replace that address with the address of a double.
@@ -56,6 +58,7 @@ app/src/main/java/com/deployagram/demo/appa/
 app/src/debug/               cleartext HTTP allowed to localhost, 127.0.0.1 and 10.0.2.2, debug builds only
 app/src/androidTest/java/com/deployagram/demo/appa/
     RecommendBookScreenTest.kt   the two emulator tests, and the BookOverflow double
+    LoadConfigButtonTest.kt      the two emulator tests of Load Config, and the AliceMessager double
 ```
 
 ## Run the app

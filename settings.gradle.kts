@@ -14,5 +14,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "deployagram-android-appA-kotest-demo"
+rootProject.name = "deployagram-android-appA-emulator-kotest-demo"
 include(":app")
